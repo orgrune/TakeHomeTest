@@ -41,21 +41,14 @@ export function findIdInTreeByValue(
   value: number
 ): number | undefined {
   // implement me
-  const found: number | undefined = SearchTree(items, value);
-  return found;
-  
-}
-
-export function SearchTree( items: TreeNode[],
-  value: number
-): number | undefined {
-  for(let node of items){
-    if(node.values.includes(value)){
+  for (let node of items) {
+    if (node.values.includes(value)) {
       return node.id;
     }
     else if (node.children && node.children.length) {
-      return SearchTree(node.children, value);
-  }}
+      return findIdInTreeByValue(node.children, value);
+    }
+  }
 }
 
 
@@ -74,7 +67,7 @@ consecutiveNumbersLength([5, 5, 3, 1]) // => 1
 
 export function consecutive(numbers: number[]): number {
   // implement me
-  let SortedNumbers = numbers.sort((a, b) => a - b);
+  const SortedNumbers = numbers.sort((a, b) => a - b);
   let longest = 0;
   let temporary = 1;
 
@@ -123,38 +116,34 @@ export function highlightMatch(
 ): React.ReactNode {
   // implement me
 
-  let regexExpression = new RegExp(matchString, 'gi');
+  const regexExpression = new RegExp(matchString, 'gi');
 
-  let combine = [];
-  let match = text.match(new RegExp(matchString, 'gi'));
-  if (!match) {
-    combine.push(<React.Fragment key={0}>{text}</React.Fragment>);
-    return combine;
+  if (!text.match(new RegExp(matchString, 'gi'))) {
+    return [(<React.Fragment key={0}>{text}</React.Fragment>)];
   }
 
+  let combine = [];
   let split = [];
   let startIndex = 0;
   let endIndex = text.length;
-  while(startIndex < endIndex){
+  while (startIndex < endIndex) {
     let index = text.toLowerCase().indexOf(matchString, startIndex);
-    if(index !== -1){
-      if(index === 0){
+    if (index !== -1) {
+      if (index === 0) {
         split.push(text.substring(startIndex, matchString.length));
       }
-      else{
-      split.push(text.substring(startIndex, index));
-      split.push(text.substring(index, index + matchString.length));
+      else {
+        split.push(text.substring(startIndex, index));
+        split.push(text.substring(index, index + matchString.length));
+      }
+      startIndex = index + matchString.length;
     }
-      startIndex = index  + matchString.length;
-    }
-    else{
+    else {
       split.push(text.substring(startIndex, endIndex));
       startIndex = endIndex;
     }
   }
 
-
-  let i = 0;
   for (let i = 0; i < split.length; i++) {
     if (split[i].match(regexExpression)) {
       combine.push(<strong key={i}>{split[i]}</strong>);
@@ -163,7 +152,5 @@ export function highlightMatch(
       combine.push(<React.Fragment key={i}>{split[i]}</React.Fragment>);
 
   }
-
-return combine;
- 
+  return combine;
 }
