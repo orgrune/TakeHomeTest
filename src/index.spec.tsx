@@ -71,13 +71,13 @@ describe("highlightMatch()", () => {
       <React.Fragment key={2}>en</React.Fragment>
     ];
 
+    
     expect(result).toEqual(expected);
   });
 
   it("returns array of JSX when no match is found", () => {
     const result = highlightMatch("Micheal Rosen", "not-found");
     const expected = [<React.Fragment key={0}>Micheal Rosen</React.Fragment>];
-
     expect(result).toEqual(expected);
   });
 
@@ -88,7 +88,7 @@ describe("highlightMatch()", () => {
     );
     const expected = [
       <strong key={0}>Multi</strong>,
-      <React.Fragment key={1}> Test return </React.Fragment>,
+      <React.Fragment key={1}> Test returns </React.Fragment>,
       <strong key={2}>multi</strong>,
       <React.Fragment key={3}>ple results</React.Fragment>
     ];
